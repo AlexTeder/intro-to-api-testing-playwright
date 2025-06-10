@@ -1,8 +1,8 @@
 export interface OrderDTO {
-  status: 'OPEN' | 'CLOSED';
-  courierId: number;
-  customerName: string;
-  customerPhone: string;
-  comment: string;
-  id: number;
+  status: 'OPEN' | 'ACCEPTED' | 'INPROGRESS' | 'DELIVERED' | 'CLOSED'
+  courierId: number | 'null'
+  customerName: string | null
+  customerPhone: string | null
+  comment: string | null
+  id: number | null
 }
