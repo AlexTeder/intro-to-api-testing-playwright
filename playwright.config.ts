@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests',
@@ -12,6 +12,7 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
+    baseURL: 'https://backend.tallinn-learning.ee',
   },
 
   projects: [
@@ -19,5 +20,4 @@ export default defineConfig({
       name: 'API tests',
     },
   ],
-
-});
+})
