@@ -11,8 +11,5 @@ export enum OrderStatus {
 }
 
 export enum FaultyOrderIdData {
-  ORDER_STATUS_CLOSED = "CLOSED"
+  ORDER_STATUS_CLOSED = 'CLOSED',
 }
-
-
-
