@@ -54,11 +54,10 @@ test('post order with incorrect payload should receive code 400', async ({ reque
     comment: 'string',
     id: 0,
   }
-  // Send a POST request to the server
+
   const response = await request.post(orderUrl, {
     data: requestBody,
   })
-  // Log the response status and body
   console.log('response status:', response.status())
   console.log('response body:', await response.text())
   expect.soft(response.status()).toBe(StatusCodes.BAD_REQUEST)
