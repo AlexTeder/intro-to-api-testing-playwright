@@ -31,10 +31,8 @@ test.describe('Order operations API', () => {
   test.describe('Update order status', () => {
     for (const status of Object.values(OrderStatus)) {
       test(`should successfully update to ${status}`, async ({ api }) => {
-        const updateData: Partial<OrderDTO> = {
-          status: status,
-        }
-        const response = await api.put<Partial<OrderDTO>, OrderDTO>(
+        const updateData = new OrderDTO(status)
+        const response = await api.put<OrderDTO, OrderDTO>(
           ORDER_URL,
           updateData,
           OrderId.ORDER_ID_POSITIVE_VALUE,
@@ -47,10 +45,8 @@ test.describe('Order operations API', () => {
     }
 
     test('with invalid ID and valid payload should receive 400', async ({ api }) => {
-      const updateData: Partial<OrderDTO> = {
-        status: OrderStatus.ACCEPTED,
-      }
-      const response = await api.put<Partial<OrderDTO>, OrderDTO>(
+      const updateData = new OrderDTO(OrderStatus.ACCEPTED)
+      const response = await api.put<OrderDTO, OrderDTO>(
         ORDER_URL,
         updateData,
         OrderId.ORDER_ID_NEGATIVE_VALUE,
@@ -59,10 +55,8 @@ test.describe('Order operations API', () => {
     })
 
     test('with valid ID and invalid payload should receive 400', async ({ api }) => {
-      const updateData: Partial<OrderDTO> = {
-        status: FaultyOrderIdData.ORDER_STATUS_CLOSED,
-      }
-      const response = await api.put<Partial<OrderDTO>, OrderDTO>(
+      const updateData = new OrderDTO(FaultyOrderIdData.ORDER_STATUS_CLOSED)
+      const response = await api.put<OrderDTO, OrderDTO>(
         ORDER_URL,
         updateData,
         OrderId.ORDER_ID_NEGATIVE_VALUE,
