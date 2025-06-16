@@ -1,6 +1,6 @@
 import { test } from './fixtures-api'
 import { StatusCodes } from 'http-status-codes'
-import { OrderDTO } from '../dto/order-dto'
+import { OrderDTO } from './dto/order-dto'
 import { validateEmptyResponse, validateResponse } from '../helpers/response-validator'
 import { expect } from '@playwright/test'
 import { FaultyOrderIdData, OrderId, OrderStatus } from '../test-data/order-api'
@@ -8,7 +8,6 @@ import { FaultyOrderIdData, OrderId, OrderStatus } from '../test-data/order-api'
 const ORDER_URL = 'test-orders'
 
 test.describe('Order operations API', () => {
-  // GET ORDER
   test.describe('GET order', () => {
     test('with correct id should receive code 200', async ({ api }) => {
       const response = await api.get<OrderDTO>(ORDER_URL, OrderId.ORDER_ID_POSITIVE_VALUE)
@@ -28,8 +27,6 @@ test.describe('Order operations API', () => {
       validateResponse(response, StatusCodes.BAD_REQUEST)
     })
   })
-
-  // UPDATE ORDER
 
   test.describe('Update order status', () => {
     for (const status of Object.values(OrderStatus)) {
@@ -83,7 +80,6 @@ test.describe('Order operations API', () => {
     })
   })
 
-  // DELETE ORDER
   test.describe('Delete order', () => {
     test('with correct id should receive code 204', async ({ api }) => {
       const response = await api.delete<OrderDTO>(ORDER_URL, OrderId.ORDER_ID_POSITIVE_VALUE)
