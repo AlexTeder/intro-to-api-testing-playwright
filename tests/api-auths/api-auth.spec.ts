@@ -24,7 +24,9 @@ test('login to a student with .env credentials returns jwt', async ({ request })
   expect.soft(responseBody).toBeDefined()
 })
 
-test('login to a student with WebStorm & Git viable credentials returns jwt', async ({ request }) => {
+test('login to a student with WebStorm & Git viable credentials returns jwt', async ({
+  request,
+}) => {
   const loginData = LoginDto.createLoginWithCorrectData()
   const response = await request.post(authUrl, {
     data: loginData,
