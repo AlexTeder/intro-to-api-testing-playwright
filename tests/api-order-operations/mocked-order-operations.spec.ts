@@ -1,9 +1,9 @@
-import { test } from './fixtures-api'
+import { test } from '../fixtures-api'
 import { StatusCodes } from 'http-status-codes'
-import { OrderDTO } from './dto/order-dto'
-import { validateEmptyResponse, validateResponse } from '../helpers/response-validator'
+import { OrderDTO } from '../dto/order-dto'
+import { validateEmptyResponse, validateResponse } from '../../helpers/response-validator'
 import { expect } from '@playwright/test'
-import { FaultyOrderIdData, OrderId, OrderStatus } from '../test-data/order-api'
+import { FaultyOrderIdData, OrderId, OrderStatus } from '../../test-data/order-api'
 
 const ORDER_URL = 'test-orders'
 
