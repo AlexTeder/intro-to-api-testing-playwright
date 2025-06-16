@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { LoginDto } from '../dto/login-dto'
+import { LoginDto, LoginDtoWithDotEnv } from '../dto/login-dto'
 import { StatusCodes } from 'http-status-codes'
 
 const authUrl = 'https://backend.tallinn-learning.ee/login/student'
@@ -12,7 +12,19 @@ test('login to a student with incorrect credentials', async ({ request }) => {
   expect.soft(response.status()).toBe(StatusCodes.UNAUTHORIZED)
 })
 
-test('login to a student returns jwt', async ({ request }) => {
+test('login to a student with .env credentials returns jwt', async ({ request }) => {
+  const loginData = new LoginDtoWithDotEnv()
+  const response = await request.post(authUrl, {
+    data: loginData,
+  })
+
+  const responseBody = await response.text()
+  console.log('response body:', responseBody)
+  expect.soft(response.status()).toBe(StatusCodes.OK)
+  expect.soft(responseBody).toBeDefined()
+})
+
+test('login to a student with WebStorm & Git viable credentials returns jwt', async ({ request }) => {
   const loginData = LoginDto.createLoginWithCorrectData()
   const response = await request.post(authUrl, {
     data: loginData,
