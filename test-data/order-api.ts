@@ -6,7 +6,7 @@ export enum OrderId {
 export enum OrderStatus {
   OPEN = 'OPEN',
   ACCEPTED = 'ACCEPTED',
-  INPROGRESS = 'INPROGRESS',
+  IN_PROGRESS = 'INPROGRESS',
   DELIVERED = 'DELIVERED',
 }
 

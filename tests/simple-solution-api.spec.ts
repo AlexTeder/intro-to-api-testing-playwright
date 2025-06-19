@@ -2,7 +2,7 @@
 
 import { expect, test } from '@playwright/test'
 import { StatusCodes } from 'http-status-codes'
-import { OrderDtoByVlad } from './dto/order-dto-by-vlad'
+import { OrderDTO } from './dto/order-dto'
 
 const orderUrl = 'https://backend.tallinn-learning.ee/test-orders'
 const ORDER_STATUS_OPEN = 'OPEN'
@@ -29,7 +29,7 @@ test('get order with incorrect id should receive code 400', async ({ request }) 
 test('post order with correct data should receive code 200', async ({ request }) => {
   // prepare request body
   // Using dto now
-  const requestBody = new OrderDtoByVlad('OPEN', 1)
+  const requestBody = new OrderDTO('OPEN')
   // Send a POST request to the server
   const response = await request.post(orderUrl, {
     data: requestBody,
