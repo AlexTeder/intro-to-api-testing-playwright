@@ -54,7 +54,9 @@ export class ApiHelper {
       const body = await response.json()
       return { status, body }
     } catch {
-      return { status }
+      const textBody = await response.text()
+      return { status, body: textBody as T }
     }
+
   }
 }
