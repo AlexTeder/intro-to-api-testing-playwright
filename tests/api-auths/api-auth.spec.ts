@@ -1,39 +1,61 @@
-import { expect, test } from '@playwright/test'
+import { test, expect } from '../fixtures-api'
 import { LoginDto, LoginDtoWithDotEnv } from '../dto/login-dto'
 import { StatusCodes } from 'http-status-codes'
+import { baseResponseValidatorAndLogging } from '../../helpers/response-validator'
+import { invalidLoginData, jwtRegex, WrongLoginData } from '../../test-data/login-api'
 
-const authUrl = 'https://backend.tallinn-learning.ee/login/student'
+const STUDENT_LOGIN_URL = 'login/student'
 
-test('login to a student with incorrect credentials', async ({ request }) => {
-  const loginData = new LoginDto('string123', 'string123')
-  const response = await request.post(authUrl, {
-    data: loginData,
+test.describe('Login API', () => {
+  test.describe('Login to a student through .env stored credentials', () => {
+    test('with correct credentials returns jwt and 200', async ({ api }) => {
+      const loginData = new LoginDtoWithDotEnv()
+      const response = await api.post<LoginDto, string>(STUDENT_LOGIN_URL, loginData)
+
+      baseResponseValidatorAndLogging(response, StatusCodes.OK)
+      expect.soft(response.body).toBeDefined()
+      expect.soft(jwtRegex.test(response.body || '')).toBeTruthy()
+    })
+
+    test('with incorrect put method returns 405', async ({ api }) => {
+      const loginData = new LoginDtoWithDotEnv()
+      const response = await api.put<LoginDto, string>(STUDENT_LOGIN_URL, loginData)
+
+      baseResponseValidatorAndLogging(response, StatusCodes.METHOD_NOT_ALLOWED)
+    })
+
+    test('with incorrect post method returns 405', async ({ api }) => {
+      const loginData = new LoginDtoWithDotEnv()
+      const response = await api.put<LoginDto, string>(STUDENT_LOGIN_URL, loginData)
+
+      baseResponseValidatorAndLogging(response, StatusCodes.METHOD_NOT_ALLOWED)
+    })
   })
-  expect.soft(response.status()).toBe(StatusCodes.UNAUTHORIZED)
-})
 
-test('login to a student with .env credentials returns jwt', async ({ request }) => {
-  const loginData = new LoginDtoWithDotEnv()
-  const response = await request.post(authUrl, {
-    data: loginData,
+  test('with incorrect credentials returns 401', async ({ api }) => {
+    const loginData = new LoginDto(WrongLoginData.FAULTY_USERNAME, WrongLoginData.FAULTY_PASSWORD)
+    const response = await api.post<LoginDto, string>(STUDENT_LOGIN_URL, loginData)
+
+    baseResponseValidatorAndLogging(response, StatusCodes.UNAUTHORIZED)
   })
 
-  const responseBody = await response.text()
-  console.log('response body:', responseBody)
-  expect.soft(response.status()).toBe(StatusCodes.OK)
-  expect.soft(responseBody).toBeDefined()
-})
+  test('with wrong body structure returns 401', async ({ api }) => {
+    const response = await api.post<typeof invalidLoginData, string>(
+      STUDENT_LOGIN_URL,
+      invalidLoginData,
+    )
 
-test('login to a student with WebStorm & Git viable credentials returns jwt', async ({
-  request,
-}) => {
-  const loginData = LoginDto.createLoginWithCorrectData()
-  const response = await request.post(authUrl, {
-    data: loginData,
+    baseResponseValidatorAndLogging(response, StatusCodes.UNAUTHORIZED)
   })
 
-  const responseBody = await response.text()
-  console.log('response body:', responseBody)
-  expect.soft(response.status()).toBe(StatusCodes.OK)
-  expect.soft(responseBody).toBeDefined()
+  test.describe('Login to a student through WebStorm & Git variable credentials', () => {
+    test('with returns jwt and 200', async ({ api }) => {
+      const loginData = LoginDto.createLoginWithCorrectData()
+      const response = await api.post<LoginDto, string>(STUDENT_LOGIN_URL, loginData)
+
+      baseResponseValidatorAndLogging(response, StatusCodes.OK)
+      expect.soft(response.body).toBeDefined()
+      expect.soft(jwtRegex.test(response.body || '')).toBeTruthy()
+    })
+  })
 })
