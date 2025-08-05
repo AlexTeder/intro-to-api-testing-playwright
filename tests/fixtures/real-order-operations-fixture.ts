@@ -7,7 +7,7 @@ const ORDER_URL = 'orders'
 const STUDENT_LOGIN_URL = 'login/student'
 
 type OrderDataFixture = {
-  orderData: { jwt: string; orderId: number; order: OrderDTO }
+  orderData: { jwt: string | undefined ; orderId: number; order: OrderDTO }
 }
 
 export const test = base.extend<OrderDataFixture>({
@@ -22,7 +22,9 @@ export const test = base.extend<OrderDataFixture>({
       { Authorization: `Bearer ${jwt}` },
     )
     const order = postOrderResponse.body
+    if (!order) throw new Error('Order is undefined')
     const orderId = order.id
+    if (orderId === undefined) throw new Error('Order ID is undefined')
 
     console.log('Order is CREATED Order_ID: %s', orderId)
     await use({ jwt, orderId, order })
