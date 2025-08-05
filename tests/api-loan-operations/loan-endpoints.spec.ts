@@ -1,4 +1,4 @@
-import { test } from '../fixtures-api'
+import { test } from '../fixtures/fixtures-api'
 import { StatusCodes } from 'http-status-codes'
 import { LoanDto } from '../dto/loan-dto'
 import {

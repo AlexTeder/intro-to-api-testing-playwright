@@ -1,3 +1,5 @@
+import { OrderCustomerData } from '../../test-data/order-api'
+
 export class OrderDTO {
   status: string
   courierId: number
@@ -9,9 +11,9 @@ export class OrderDTO {
   constructor(status: string) {
     this.status = status
     this.courierId = 1
-    this.customerName = 'Alex Test'
-    this.customerPhone = '555-5555'
-    this.comment = 'Some comment'
+    this.customerName = OrderCustomerData.CUSTOMER_NAME
+    this.customerPhone = OrderCustomerData.CUSTOMER_PHONE
+    this.comment = OrderCustomerData.CUSTOMER_COMMENT
     this.id = 0
   }
 }

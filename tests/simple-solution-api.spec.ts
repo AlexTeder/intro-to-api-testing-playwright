@@ -97,6 +97,7 @@ test('student receive token then create order returns order details and 200', as
     },
   })
   const getOrderResponseBody = await getOrderResponse.json()
+
   console.log('response body:', getOrderResponseBody)
   expect.soft(getOrderResponse.status()).toBe(StatusCodes.OK)
   expect.soft(getOrderResponseBody.id).toBe(orderId)

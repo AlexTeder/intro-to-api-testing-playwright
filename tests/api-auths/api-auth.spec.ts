@@ -1,4 +1,4 @@
-import { test, expect } from '../fixtures-api'
+import { test, expect } from '../fixtures/fixtures-api'
 import { LoginDto, LoginDtoWithDotEnv } from '../dto/login-dto'
 import { StatusCodes } from 'http-status-codes'
 import { baseResponseValidatorAndLogging } from '../../helpers/response-validator'
