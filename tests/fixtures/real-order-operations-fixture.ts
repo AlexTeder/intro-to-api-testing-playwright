@@ -7,7 +7,7 @@ const ORDER_URL = 'orders'
 const STUDENT_LOGIN_URL = 'login/student'
 
 type OrderDataFixture = {
-  orderData: { jwt: string | undefined ; orderId: number; order: OrderDTO }
+  orderData: { jwt: string | undefined; orderId: number; order: OrderDTO }
 }
 
 export const test = base.extend<OrderDataFixture>({
