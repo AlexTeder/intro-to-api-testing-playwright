@@ -10,6 +10,12 @@ export enum OrderStatus {
   DELIVERED = 'DELIVERED',
 }
 
+export enum OrderCustomerData {
+  CUSTOMER_NAME = 'Alex Test',
+  CUSTOMER_PHONE = '555-5555',
+  CUSTOMER_COMMENT = 'Some comment',
+}
+
 export enum FaultyOrderIdData {
   ORDER_STATUS_CLOSED = 'CLOSED',
 }

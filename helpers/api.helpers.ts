@@ -17,14 +17,24 @@ export class ApiHelper {
     }
   }
 
-  async get<T>(endpoint: string, id?: string | number): Promise<APIResponseDTO<T>> {
-    const response = await this.request.get(`${this.baseUrl}/${urlBuilder(endpoint, id)}`)
+  async get<T>(endpoint: string, id?: string | number,   headers?: Record<string, string>
+  ): Promise<APIResponseDTO<T>> {
+    const response = await this.request.get(`${this.baseUrl}/${urlBuilder(endpoint, id)}`,
+      {
+        ...(headers && { headers }),
+      }
+      )
     return this.handleResponse<T>(response)
   }
 
-  async post<T, U>(endpoint: string, data: T): Promise<APIResponseDTO<U>> {
+  async post<T, U>(
+    endpoint: string,
+    data: T,
+    headers?: Record<string, string>
+  ): Promise<APIResponseDTO<U>> {
     const response = await this.request.post(`${this.baseUrl}/${endpoint}`, {
       data,
+      ...(headers && { headers }),
     })
     return this.handleResponse<U>(response)
   }
@@ -41,10 +51,16 @@ export class ApiHelper {
     return this.handleResponse<U>(response)
   }
 
-  async delete<T>(endpoint: string, id?: string | number): Promise<APIResponseDTO<T>> {
-    const response = await this.request.delete(`${this.baseUrl}/${urlBuilder(endpoint, id)}`, {
-      headers: this.headers,
-    })
+  async delete<T>(
+    endpoint: string,
+    id?: string | number,
+    headers?: Record<string, string>
+  ): Promise<APIResponseDTO<T>> {
+    const mergedHeaders = { ...this.headers, ...headers }
+    const response = await this.request.delete(
+      `${this.baseUrl}/${urlBuilder(endpoint, id)}`,
+      { headers: mergedHeaders }
+    )
     return this.handleResponse<T>(response)
   }
 
@@ -54,7 +70,9 @@ export class ApiHelper {
       const body = await response.json()
       return { status, body }
     } catch {
-      return { status }
+      const textBody = await response.text()
+      return { status, body: textBody as T }
     }
+
   }
 }

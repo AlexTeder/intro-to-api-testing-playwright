@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test'
-import { ApiHelper } from '../helpers/api.helpers'
+import { ApiHelper } from '../../helpers/api.helpers'
 
 type TestFixtures = {
   api: ApiHelper
